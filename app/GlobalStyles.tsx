@@ -7,6 +7,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#25292E',
   },
+  footerContainer: {
+    flex: 1 / 3,
+    alignItems: 'center',
+  },
   text: {
     color: '#FEFEFE',
   },
@@ -14,6 +18,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFD33D',
     padding: 10,
     borderRadius: 4,
+  },
+  imageContainer: {
+    flex: 1,
   },
 });
 

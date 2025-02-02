@@ -15,7 +15,7 @@ export default function NotFoundScreen() {
         <Text style={GlobalStyles.text}>
           The page you're looking is not found.
         </Text>
-        <Link href={'/index'} style={[GlobalStyles.button, { marginTop: 20 }]}>
+        <Link href={'/'} style={[GlobalStyles.button, { marginTop: 20 }]}>
           Go back to home screen
         </Link>
       </View>
