@@ -2,7 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 type Props = {
-  onPress?: () => void;
+  onPress: () => void;
 };
 
 export default function CircleAddButton({ onPress }: Props) {
@@ -19,7 +19,6 @@ const style = StyleSheet.create({
   circleButtonContainer: {
     width: 84,
     height: 84,
-    marginHorizontal: 60,
     borderWidth: 4,
     borderColor: '#FFD33D',
     borderRadius: 42,

@@ -26,6 +26,7 @@ export default function Index() {
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
       allowsEditing: true,
       quality: 1,
     });
@@ -38,59 +39,65 @@ export default function Index() {
     }
   };
 
-  const onReset = () => setShowAppOption(false);
+  const onReset = () => {
+    setShowAppOption(false);
+    setSelectedEmoji(undefined);
+  };
 
-  const onAddSticker = () => setIsModalVisible(true);
+  const onAddSticker = () => {
+    setIsModalVisible(true);
+  };
 
-  const onModalClose = () => setIsModalVisible(false);
+  const onModalClose = () => {
+    setIsModalVisible(false);
+  };
 
   const onSaveImage = async () => {
     // save edited image
   };
 
   return (
-    <>
-      <View style={GlobalStyles.container}>
-        <View style={GlobalStyles.imageContainer}>
-          <ImageViewer imgSrc={selectedImage || PlaceholderImage} />
-          {selectedEmoji && (
-            <EmojiSticker
-              stickerSource={selectedEmoji}
-              imageSize={selectedEmoji?.height || 40}
-            />
-          )}
-        </View>
-
-        {showAppOption ? (
-          <View style={style.optionContainer}>
-            <View style={style.optionRow}>
-              <IconButton icon='refresh' label='Reset' onPress={onReset} />
-              <CircleAddButton onPress={onAddSticker} />
-              <IconButton icon='save-alt' label='Save' onPress={onSaveImage} />
-            </View>
-          </View>
-        ) : (
-          <View style={GlobalStyles.footerContainer}>
-            <Button
-              label='Choose photo from camera roll'
-              theme='primary'
-              onPress={pickImage}
-            />
-            <Button
-              label='Choose this photo'
-              onPress={() => setShowAppOption(true)}
-            />
-          </View>
+    <View style={GlobalStyles.container}>
+      <View style={GlobalStyles.imageContainer}>
+        <ImageViewer imgSrc={PlaceholderImage} selectedImage={selectedImage} />
+        {selectedEmoji && (
+          <EmojiSticker
+            stickerSource={selectedEmoji}
+            imageSize={selectedEmoji?.height || 40}
+          />
         )}
-        <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
-          <EmojiList onSelect={setSelectedEmoji} onCloseModal={onModalClose} />
-        </EmojiPicker>
       </View>
-    </>
+
+      {showAppOption ? (
+        <View style={style.optionContainer}>
+          <View style={style.optionRow}>
+            <IconButton icon='refresh' label='Reset' onPress={onReset} />
+            {!selectedEmoji && <CircleAddButton onPress={onAddSticker} />}
+            <IconButton icon='save-alt' label='Save' onPress={onSaveImage} />
+          </View>
+        </View>
+      ) : (
+        <View style={GlobalStyles.footerContainer}>
+          <Button
+            label='Choose photo from camera roll'
+            theme='primary'
+            onPress={pickImage}
+          />
+          <Button
+            label='Choose this photo'
+            onPress={() => setShowAppOption(true)}
+          />
+        </View>
+      )}
+      <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
+        <EmojiList onSelect={setSelectedEmoji} onCloseModal={onModalClose} />
+      </EmojiPicker>
+    </View>
   );
 }
 
 const style = StyleSheet.create({
+  container: {},
   optionContainer: {
     position: 'absolute',
     bottom: 80,

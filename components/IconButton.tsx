@@ -18,6 +18,7 @@ export default function IconButton({ icon, label, onPress }: Props) {
 
 const style = StyleSheet.create({
   iconButton: {
+    marginHorizontal: 60,
     justifyContent: 'center',
     alignItems: 'center',
   },

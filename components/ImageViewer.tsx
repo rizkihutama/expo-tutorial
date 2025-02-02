@@ -3,7 +3,14 @@ import { StyleSheet } from 'react-native';
 
 type Props = {
   imgSrc: string;
+  selectedImage?: string;
 };
+
+export default function ImageViewer({ imgSrc, selectedImage }: Props) {
+  const imageSource = selectedImage ? { uri: selectedImage } : imgSrc;
+
+  return <Image source={imageSource} style={styles.image} />;
+}
 
 const styles = StyleSheet.create({
   image: {
@@ -12,7 +19,3 @@ const styles = StyleSheet.create({
     borderRadius: 18,
   },
 });
-
-export default function ImageViewer({ imgSrc }: Props) {
-  return <Image source={imgSrc} style={styles.image} />;
-}

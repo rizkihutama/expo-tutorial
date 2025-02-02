@@ -1,6 +1,7 @@
 import React from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const defaultHeaderOptions = {
   headerTintColor: '#FEFEFE',
@@ -12,7 +13,7 @@ const defaultHeaderOptions = {
 
 export default function RootLayout() {
   return (
-    <>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar barStyle='light-content' />
       <Stack screenOptions={{ ...defaultHeaderOptions }}>
         <Stack.Screen
@@ -28,6 +29,6 @@ export default function RootLayout() {
           }}
         />
       </Stack>
-    </>
+    </GestureHandlerRootView>
   );
 }
