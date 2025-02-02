@@ -22,9 +22,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    // padding: 10,
     borderRadius: 10,
-    // backgroundColor: '#FFD33D',
   },
   buttonIcon: {
     paddingRight: 8,
