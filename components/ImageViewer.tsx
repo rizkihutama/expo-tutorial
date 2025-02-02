@@ -1,7 +1,7 @@
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
 
-type ImageType = {
+type Props = {
   imgSrc: string;
 };
 
@@ -13,6 +13,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ImageViewer({ imgSrc }: ImageType) {
+export default function ImageViewer({ imgSrc }: Props) {
   return <Image source={imgSrc} style={styles.image} />;
 }

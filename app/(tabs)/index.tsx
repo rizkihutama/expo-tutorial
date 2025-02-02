@@ -1,15 +1,28 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { type ImageSource } from 'expo-image';
 
 import GlobalStyles from '../GlobalStyles';
-import ImageViewer from '@/components/ImageViewer';
 import Button from '@/components/Button';
+import CircleAddButton from '@/components/CircleAddButton';
+import IconButton from '@/components/IconButton';
+import ImageViewer from '@/components/ImageViewer';
+import EmojiPicker from '@/components/EmojiPicker';
+import EmojiList from '@/components/EmojiList';
+import EmojiSticker from '@/components/EmojiSticker';
 
 const PlaceholderImage = require('@/assets/images/background-image.png');
 
 export default function Index() {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | undefined>(
+    undefined
+  );
+  const [showAppOption, setShowAppOption] = useState<boolean>(false);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [selectedEmoji, setSelectedEmoji] = useState<ImageSource | undefined>(
+    undefined
+  );
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -19,29 +32,71 @@ export default function Index() {
 
     if (!result.canceled) {
       setSelectedImage(result.assets[0].uri);
-      console.log(result.assets);
+      setShowAppOption(true);
     } else {
       alert('You did not select any image.');
     }
   };
 
-  return (
-    <View style={GlobalStyles.container}>
-      <View style={GlobalStyles.imageContainer}>
-        <ImageViewer imgSrc={selectedImage || PlaceholderImage} />
-      </View>
+  const onReset = () => setShowAppOption(false);
 
-      <View style={GlobalStyles.footerContainer}>
-        <Button
-          label='Choose photo from camera roll'
-          theme='primary'
-          onPress={pickImage}
-        />
-        <Button
-          label='Choose this photo'
-          onPress={() => alert('Button Pressed')}
-        />
+  const onAddSticker = () => setIsModalVisible(true);
+
+  const onModalClose = () => setIsModalVisible(false);
+
+  const onSaveImage = async () => {
+    // save edited image
+  };
+
+  return (
+    <>
+      <View style={GlobalStyles.container}>
+        <View style={GlobalStyles.imageContainer}>
+          <ImageViewer imgSrc={selectedImage || PlaceholderImage} />
+          {selectedEmoji && (
+            <EmojiSticker
+              stickerSource={selectedEmoji}
+              imageSize={selectedEmoji?.height || 40}
+            />
+          )}
+        </View>
+
+        {showAppOption ? (
+          <View style={style.optionContainer}>
+            <View style={style.optionRow}>
+              <IconButton icon='refresh' label='Reset' onPress={onReset} />
+              <CircleAddButton onPress={onAddSticker} />
+              <IconButton icon='save-alt' label='Save' onPress={onSaveImage} />
+            </View>
+          </View>
+        ) : (
+          <View style={GlobalStyles.footerContainer}>
+            <Button
+              label='Choose photo from camera roll'
+              theme='primary'
+              onPress={pickImage}
+            />
+            <Button
+              label='Choose this photo'
+              onPress={() => setShowAppOption(true)}
+            />
+          </View>
+        )}
+        <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
+          <EmojiList onSelect={setSelectedEmoji} onCloseModal={onModalClose} />
+        </EmojiPicker>
       </View>
-    </View>
+    </>
   );
 }
+
+const style = StyleSheet.create({
+  optionContainer: {
+    position: 'absolute',
+    bottom: 80,
+  },
+  optionRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+});
